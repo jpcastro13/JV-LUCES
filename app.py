@@ -1,10 +1,7 @@
-
 import streamlit as st
 import pandas as pd
 import urllib.parse
 import os
-
-
 
 # 1. Configuración de la página
 st.set_page_config(
@@ -14,21 +11,43 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 2. Estilos CSS con Tipografía Urbana y Azul Cielo
-
-
+# 2. Estilos CSS completos (Tipografía Urbana, Ocultar Barra y Selector de Pestañas/Sidebar)
 st.markdown("""
 <link href='https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&display=swap' rel='stylesheet'>
 <style>
-    html, body, [class*="css"] {
+    /* Ocultar la barra superior y los iconos de la esquina derecha (Share, GitHub, etc.) */
+    [data-testid="stToolbar"] {
+        visibility: hidden;
+        display: none;
+    }
+    header {
+        visibility: hidden;
+        height: 0px;
+    }
+
+    /* Tipografía general para toda la página y la barra lateral */
+    html, body, [class*="css"], [data-testid="stSidebar"] {
         font-family: 'Plus Jakarta Sans', sans-serif;
         background-color: #0b0f19;
         color: #f3f4f6;
     }
 
-    h1, h2, h3, h4, h5, h6, .stSubheader {
+    /* Títulos principales y de la barra lateral con estilo urbano (Syne) */
+    h1, h2, h3, h4, h5, h6, .stSubheader, [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3 {
         font-family: 'Syne', sans-serif !important;
         letter-spacing: -0.5px;
+    }
+
+    /* Forzar la tipografía moderna en etiquetas de la barra lateral (Radio, Selectbox, Sliders) */
+    .stRadio label, .stSelectbox label, .stSlider label, [data-baseweb="radio"] div, [data-testid="stMarkdownContainer"] p {
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
+    }
+
+    /* Estilo moderno para las Pestañas de Navegación principales (Tabs) */
+    [data-baseweb="tab"] {
+        font-family: 'Syne', sans-serif !important;
+        font-weight: 700 !important;
+        font-size: 1rem !important;
     }
     
     /* Encabezado Superior Humano y Urbano */
@@ -173,7 +192,7 @@ with st.sidebar:
     st.divider()
     st.info("📦 Envíos seguros y asesoría directa vía WhatsApp.")
 
-# 5. Cabecera superior humana (Justo debajo de la barra gris de Streamlit)
+# 5. Cabecera superior humana (Justo debajo de la barra oculta)
 st.markdown("""
 <div class="top-header">
     <h1 class="top-title">JV AUTO LED</h1>
@@ -184,14 +203,12 @@ st.markdown("""
 # 6. Banner Movible / Carrusel de Imágenes
 st.markdown('<div class="banner-container">', unsafe_allow_html=True)
 
-# Buscamos las imágenes disponibles en tu repositorio (puedes agregar banner1.jpg, banner2.jpg, etc.)
 imagenes_banner = []
 for img_name in ["banner.jpg", "banner.png", "banner1.jpg", "banner2.jpg"]:
     if os.path.exists(img_name):
         imagenes_banner.append(img_name)
 
 if imagenes_banner:
-    # Si hay varias imágenes, Streamlit permite hacer un selector o pestañas estilo carrusel interactivo
     if len(imagenes_banner) > 1:
         opcion_banner = st.radio(
             "Banner interactivo", 
@@ -258,7 +275,7 @@ with tab_guia:
     col1, col2 = st.columns(2)
     with col1:
         st.markdown("""
-        ### 🚗 Automóveis
+        ### 🚗 Automóviles
         * **Chevrolet (Spark / Sail / Aveo):** H4
         * **Renault (Logan / Sandero / Duster):** H7 / H1
         * **Mazda (2 / 3):** H11
@@ -289,3 +306,4 @@ with tab_contacto:
         st.markdown(f'<a href="{url_wa_general}" target="_blank" class="btn-wa" style="padding: 15px; font-size: 1.1rem;">💬 Chatear con un asesor ahora</a>', unsafe_allow_html=True)
     with col_c2:
         st.info("¿Tienes un taller o necesitas precios al por mayor? Escríbenos directamente a nuestro WhatsApp corporativo para brindarte atención prioritaria.")
+
