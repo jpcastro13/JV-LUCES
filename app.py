@@ -1,55 +1,32 @@
 import streamlit as st
 import pandas as pd
 import urllib.parse
+import os
 
 # 1. Configuración de la página
 st.set_page_config(
-    page_title="AutoLum LED | Accesorios e Iluminación Automotriz",
+    page_title="JV AUTO LED | Iluminación Automotriz",
     page_icon="💡",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# 2. Estilos CSS personalizados (Estilo Comercial / E-commerce estilo Wapaled)
+# 2. Estilos CSS personalizados
 st.markdown("""
 <style>
-    /* Estilos generales y tipografía */
     .main {
         background-color: #0e1117;
     }
     
-    /* Banner Principal Estilo Wapaled */
-    .hero-container {
+    /* Contenedor del Banner con Imagen */
+    .banner-container {
+        text-align: center;
         background: linear-gradient(135deg, #11141d 0%, #1a1f2c 50%, #11141d 100%);
         border: 1px solid #2a3042;
         border-radius: 16px;
-        padding: 40px 30px;
+        padding: 20px;
         margin-bottom: 30px;
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-        position: relative;
-        overflow: hidden;
-    }
-    .hero-title {
-        color: #ffffff;
-        font-size: 2.8rem;
-        font-weight: 900;
-        margin: 0;
-        letter-spacing: -0.5px;
-    }
-    .hero-subtitle {
-        color: #ff9900;
-        font-size: 1.3rem;
-        font-weight: 700;
-        margin-top: 8px;
-        margin-bottom: 15px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    .hero-desc {
-        color: #b0b7c3;
-        font-size: 1.05rem;
-        max-width: 650px;
-        margin-bottom: 25px;
     }
 
     /* Tarjetas de productos */
@@ -109,8 +86,8 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Número de WhatsApp de contacto (Modifícalo con el tuyo)
-WHATSAPP_NUM = "573000000000"
+# Número de WhatsApp extraído de tu imagen (301 537 8987 -> Formato internacional Colombia +57)
+WHATSAPP_NUM = "573015378987"
 
 # 3. Base de datos simulada de productos
 @st.cache_data
@@ -129,7 +106,8 @@ df_productos = cargar_catalogo()
 
 # 4. Barra Lateral (Filtros)
 with st.sidebar:
-    st.title("🔍 Filtrar Catálogo")
+    st.title("⚡ JV AUTO LED")
+    st.write("Filtros de Búsqueda")
     
     filtro_vehiculo = st.radio(
         "Tipo de Vehículo:",
@@ -150,30 +128,28 @@ with st.sidebar:
     )
     
     st.divider()
-    st.info("🚚 Envíos seguros a todo el país y asesoría personalizada.")
+    st.info("📦 Envíos seguros y atención directa por WhatsApp.")
 
-# 5. Banner Principal Estilo Wapaled (Hero Section)
-st.markdown("""
-<div class="hero-container">
-    <div class="hero-subtitle">⚡ ACCESORIOS DE LUJO & ILUMINACIÓN LED</div>
-    <h1 class="hero-title">Todo lo que necesitas en un solo lugar</h1>
-    <p class="hero-desc">
-        Potencia la visibilidad y estética de tu vehículo o motocicleta con tecnología LED de última generación. 
-        Máxima potencia, sistemas Canbus avanzados y garantía directa.
-    </p>
-</div>
-""", unsafe_allow_html=True)
+# 5. Banner Principal con la Imagen del Negocio
+st.markdown('<div class="banner-container">', unsafe_allow_html=True)
+col_img1, col_img2, col_img3 = st.columns([1, 8, 1])
+with col_img2:
+    if os.path.exists("banner.jpg"):
+        st.image("banner.jpg", use_container_width=True)
+    else:
+        # Mensaje de apoyo por si aún no han subido el archivo con ese nombre exacto
+        st.warning("⚠️ Sube la imagen del banner a tu repositorio de GitHub con el nombre exacto **`banner.jpg`** para que aparezca aquí.")
+st.markdown('</div>', unsafe_allow_html=True)
 
 # 6. Pestañas de Navegación
 tab_catalogo, tab_guia, tab_contacto = st.tabs([
-    "🛒 Productos Destacados", 
-    "💡 ¿Qué bombillo usa mi vehículo?", 
-    "📲 Contacto y Ubicación"
+    "🛒 Catálogo de Luces", 
+    "💡 Guía de Bombillos", 
+    "📲 Contacto y Pedidos"
 ])
 
 # --- PESTAÑA 1: CATÁLOGO ---
 with tab_catalogo:
-    # Aplicar filtros
     df_filtrado = df_productos.copy()
     
     if filtro_vehiculo == "Carro":
@@ -186,7 +162,7 @@ with tab_catalogo:
         
     df_filtrado = df_filtrado[df_filtrado["precio"] <= rango_precio]
 
-    st.subheader(f"Catálogo Actual ({len(df_filtrado)} productos)")
+    st.subheader(f"Productos Disponibles ({len(df_filtrado)})")
     
     if df_filtrado.empty:
         st.warning("No hay productos que coincidan con los filtros seleccionados.")
@@ -194,7 +170,7 @@ with tab_catalogo:
         columnas = st.columns(3)
         for idx, (_, prod) in enumerate(df_filtrado.iterrows()):
             with columnas[idx % 3]:
-                mensaje_wa = f"Hola! Me interesa el producto *{prod['nombre']}* (Socket {prod['socket']}) por valor de ${prod['precio']:,.0f}."
+                mensaje_wa = f"Hola JV Auto LED! Me interesa el producto *{prod['nombre']}* (Socket {prod['socket']}) por valor de ${prod['precio']:,.0f}."
                 url_wa = f"https://wa.me/{WHATSAPP_NUM}?text={urllib.parse.quote(mensaje_wa)}"
                 
                 st.markdown(f"""
@@ -212,16 +188,14 @@ with tab_catalogo:
 # --- PESTAÑA 2: GUÍA DE COMPATIBILIDAD ---
 with tab_guia:
     st.subheader("Guía de Referencias y Conectores")
-    st.write("Consulta rápida para saber qué bombillo le sirve a tu máquina:")
-    
     col1, col2 = st.columns(2)
     with col1:
         st.markdown("""
         ### 🚗 Automóviles
         * **Chevrolet (Spark / Sail / Aveo):** H4
-        * **Renault (Logan / Sandero / Duster):** H7 (Bajas) / H1 (Altas)
+        * **Renault (Logan / Sandero / Duster):** H7 / H1
         * **Mazda (2 / 3):** H11
-        * **Kia (Picanto / Rio):** H4 o H7 según versión
+        * **Kia (Picanto / Rio):** H4 o H7
         """)
     with col2:
         st.markdown("""
@@ -234,13 +208,17 @@ with tab_guia:
 
 # --- PESTAÑA 3: CONTACTO ---
 with tab_contacto:
-    st.subheader("Ponte en contacto con nosotros")
+    st.subheader("Atención Directa - JV AUTO LED")
+    
+    url_wa_general = f"https://wa.me/{WHATSAPP_NUM}?text={urllib.parse.quote('Hola JV Auto LED, quiero asesoría personalizada para las luces de mi vehículo.')}"
+    
     col_c1, col_c2 = st.columns(2)
     with col_c1:
-        st.markdown("""
-        * **📲 WhatsApp Directo:** [Escríbenos aquí](https://wa.me/573000000000)
-        * **📦 Envíos:** Cobertura nacional mediante transportadora segura.
-        * **💳 Medios de pago:** Transferencias Bancor, Nequi, Daviplata o Efectivo contra entrega (según ciudad).
+        st.markdown(f"""
+        * **📱 WhatsApp:** [301 537 8987]({url_wa_general})
+        * **💡 Especialidad:** Iluminación LED de alta gama para carros y motos.
+        * **📍 Cobertura:** Envíos a todo el país.
         """)
+        st.markdown(f'<a href="{url_wa_general}" target="_blank" class="btn-wa" style="padding: 15px; font-size: 1.1rem;">💬 Chatear con un asesor ahora</a>', unsafe_allow_html=True)
     with col_c2:
-        st.info("¿Tienes dudas sobre la instalación o necesitas una cotización al por mayor para tu taller? Envíanos un mensaje directo por WhatsApp y te atenderemos al instante.")
+        st.info("¿Tienes un taller o necesitas precios al por mayor? Escríbenos directamente a nuestro WhatsApp corporativo para brindarte atención prioritaria.")
