@@ -5,5 +5,4 @@ secondaryBackgroundColor = "#1a1c23"
 textColor = "#fafafa"
 font = "sans serif"
 
-[client]
-toolbarMode = "minimal"
+
