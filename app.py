@@ -11,97 +11,106 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 2. Estilos CSS con Tipografía Moderna (Google Fonts: Outfit / Inter) y Estética Automotriz
+# 2. Estilos CSS con Tipografía Urbana / Moderna y Azul Cielo
 st.markdown("""
-<import url='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800;900&display=swap'>
+<link href='https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&display=swap' rel='stylesheet'>
 <style>
-    /* Aplicar la tipografía moderna a toda la aplicación */
+    /* Estilos generales con tipografía Plus Jakarta Sans (urbana y limpia) */
     html, body, [class*="css"] {
-        font-family: 'Inter', sans-serif;
-        background-color: #0e1117;
-        color: #fafafa;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-color: #0b0f19;
+        color: #f3f4f6;
     }
 
-    /* Forzar tipografía geométrica moderna en títulos y encabezados */
+    /* Títulos con estilo urbano vanguardista (Syne) */
     h1, h2, h3, h4, h5, h6, .stSubheader {
-        font-family: 'Outfit', sans-serif !important;
+        font-family: 'Syne', sans-serif !important;
+        letter-spacing: -0.5px;
     }
     
     /* Contenedor del Banner con Imagen */
     .banner-container {
         text-align: center;
-        background: linear-gradient(135deg, #11141d 0%, #1a1f2c 50%, #11141d 100%);
-        border: 1px solid #2a3042;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+        border: 1px solid #1e293b;
         border-radius: 16px;
         padding: 20px;
         margin-bottom: 30px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
 
-    /* Tarjetas de productos estilizadas */
+    /* Tarjetas de productos con estilo moderno y acento Azul Cielo */
     .product-card {
-        background-color: #161922;
-        border: 1px solid #262b3a;
-        border-radius: 12px;
-        padding: 20px;
+        background-color: #111827;
+        border: 1px solid #1f2937;
+        border-radius: 14px;
+        padding: 22px;
         margin-bottom: 20px;
-        transition: transform 0.2s ease, border-color 0.2s ease;
+        transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     }
     .product-card:hover {
-        transform: translateY(-4px);
-        border-color: #ff9900;
-        box-shadow: 0 6px 20px rgba(255, 153, 0, 0.15);
+        transform: translateY(-5px);
+        border-color: #00b4d8;
+        box-shadow: 0 8px 24px rgba(0, 180, 216, 0.2);
     }
     .price-tag {
-        color: #00e676;
+        color: #00f5d4;
         font-size: 1.4rem;
         font-weight: 800;
-        font-family: 'Outfit', sans-serif;
+        font-family: 'Syne', sans-serif;
         margin: 10px 0;
     }
     .badge {
-        background-color: #ff9900;
-        color: #000000;
-        padding: 4px 10px;
+        background-color: #00b4d8;
+        color: #0b0f19;
+        padding: 5px 10px;
         border-radius: 6px;
         font-size: 0.75rem;
         font-weight: 800;
         display: inline-block;
         margin-bottom: 8px;
         text-transform: uppercase;
-        font-family: 'Outfit', sans-serif;
+        font-family: 'Syne', sans-serif;
+        letter-spacing: 0.5px;
     }
     .spec-text {
-        color: #9da3af;
+        color: #9ca3af;
         font-size: 0.9rem;
-        margin: 4px 0;
+        margin: 5px 0;
     }
     
-    /* Botón de WhatsApp */
+    /* Botón de WhatsApp elegante */
     .btn-wa {
         display: block;
         width: 100%;
         text-align: center;
         background-color: #25D366;
         color: #ffffff !important;
-        padding: 11px;
+        padding: 12px;
         border-radius: 8px;
         text-decoration: none;
         font-weight: 700;
-        font-family: 'Inter', sans-serif;
+        font-family: 'Plus Jakarta Sans', sans-serif;
         margin-top: 15px;
-        transition: background-color 0.2s;
+        transition: background-color 0.2s, transform 0.1s;
     }
     .btn-wa:hover {
-        background-color: #1ebe57;
+        background-color: #22bf5b;
+        transform: scale(1.01);
+    }
+
+    /* Personalización de la barra lateral */
+    [data-testid="stSidebar"] {
+        background-color: #0f172a;
+        border-right: 1px solid #1e293b;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Número de WhatsApp del negocio
+# Número de WhatsApp oficial
 WHATSAPP_NUM = "573015378987"
 
-# 3. Base de datos simulada de productos
+# 3. Base de datos de productos
 @st.cache_data
 def cargar_catalogo():
     datos = [
@@ -119,7 +128,7 @@ df_productos = cargar_catalogo()
 # 4. Barra Lateral (Filtros)
 with st.sidebar:
     st.title("⚡ JV AUTO LED")
-    st.write("Filtros de Búsqueda")
+    st.caption("Filtros de Búsqueda")
     
     filtro_vehiculo = st.radio(
         "Tipo de Vehículo:",
@@ -140,7 +149,7 @@ with st.sidebar:
     )
     
     st.divider()
-    st.info("📦 Envíos seguros y atención directa por WhatsApp.")
+    st.info("📦 Envíos seguros y asesoría directa vía WhatsApp.")
 
 # 5. Banner Principal con la Imagen del Negocio
 st.markdown('<div class="banner-container">', unsafe_allow_html=True)
