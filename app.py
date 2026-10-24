@@ -13,32 +13,7 @@ st.set_page_config(
 )
 
 # 2. Estilos CSS con Tipografía Urbana y Azul Cielo
-st.markdown("""
-<link href='https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&display=swap' rel='stylesheet'>
-<style>
-    /* ======================================================== */
-    /* PEGA ESTAS LÍNEAS AQUÍ, AL INICIO DE LA ETIQUETA <style> */
-    [data-testid="stToolbar"] {
-        visibility: hidden;
-        display: none;
-    }
-    header {
-        visibility: hidden;
-        height: 0px;
-    }
-    /* ======================================================== */
 
-    /* Estilos generales de la página */
-    html, body, [class*="css"] {
-        font-family: 'Plus Jakarta Sans', sans-serif;
-        background-color: #0b0f19;
-        color: #f3f4f6;
-    }
-
-    h1, h2, h3, h4, h5, h6, .stSubheader {
-        font-family: 'Syne', sans-serif !important;
-        letter-spacing: -0.5px;
-    }
 
 st.markdown("""
 <link href='https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&display=swap' rel='stylesheet'>
