@@ -4,28 +4,67 @@ import urllib.parse
 
 # 1. Configuración de la página
 st.set_page_config(
-    page_title="AutoLum LED | Iluminación Automotriz",
+    page_title="AutoLum LED | Accesorios e Iluminación Automotriz",
     page_icon="💡",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# 2. Estilos CSS personalizados (Estética Automotriz Dark + Neón)
+# 2. Estilos CSS personalizados (Estilo Comercial / E-commerce estilo Wapaled)
 st.markdown("""
 <style>
+    /* Estilos generales y tipografía */
+    .main {
+        background-color: #0e1117;
+    }
+    
+    /* Banner Principal Estilo Wapaled */
+    .hero-container {
+        background: linear-gradient(135deg, #11141d 0%, #1a1f2c 50%, #11141d 100%);
+        border: 1px solid #2a3042;
+        border-radius: 16px;
+        padding: 40px 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        position: relative;
+        overflow: hidden;
+    }
+    .hero-title {
+        color: #ffffff;
+        font-size: 2.8rem;
+        font-weight: 900;
+        margin: 0;
+        letter-spacing: -0.5px;
+    }
+    .hero-subtitle {
+        color: #ff9900;
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-top: 8px;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .hero-desc {
+        color: #b0b7c3;
+        font-size: 1.05rem;
+        max-width: 650px;
+        margin-bottom: 25px;
+    }
+
     /* Tarjetas de productos */
     .product-card {
-        background-color: #1a1c23;
-        border: 1px solid #2d303e;
+        background-color: #161922;
+        border: 1px solid #262b3a;
         border-radius: 12px;
-        padding: 18px;
+        padding: 20px;
         margin-bottom: 20px;
         transition: transform 0.2s ease, border-color 0.2s ease;
     }
     .product-card:hover {
-        transform: translateY(-5px);
+        transform: translateY(-4px);
         border-color: #ff9900;
-        box-shadow: 0 6px 15px rgba(255, 153, 0, 0.15);
+        box-shadow: 0 6px 20px rgba(255, 153, 0, 0.15);
     }
     .price-tag {
         color: #00e676;
@@ -36,18 +75,20 @@ st.markdown("""
     .badge {
         background-color: #ff9900;
         color: #000000;
-        padding: 3px 10px;
+        padding: 4px 10px;
         border-radius: 6px;
         font-size: 0.75rem;
-        font-weight: bold;
+        font-weight: 800;
         display: inline-block;
         margin-bottom: 8px;
+        text-transform: uppercase;
     }
     .spec-text {
-        color: #a0a6b5;
+        color: #9da3af;
         font-size: 0.9rem;
-        margin: 3px 0;
+        margin: 4px 0;
     }
+    
     /* Botón de WhatsApp */
     .btn-wa {
         display: block;
@@ -55,31 +96,23 @@ st.markdown("""
         text-align: center;
         background-color: #25D366;
         color: #ffffff !important;
-        padding: 10px;
+        padding: 11px;
         border-radius: 8px;
         text-decoration: none;
         font-weight: bold;
-        margin-top: 12px;
+        margin-top: 15px;
         transition: background-color 0.2s;
     }
     .btn-wa:hover {
         background-color: #1ebe57;
     }
-    /* Banner Principal */
-    .hero-banner {
-        background: linear-gradient(90deg, #111318 0%, #1f2430 100%);
-        border-left: 5px solid #ff9900;
-        padding: 25px;
-        border-radius: 10px;
-        margin-bottom: 25px;
-    }
 </style>
 """, unsafe_allow_html=True)
 
-# Configura aquí el número de WhatsApp del negocio (con código de país, sin el +)
+# Número de WhatsApp de contacto (Modifícalo con el tuyo)
 WHATSAPP_NUM = "573000000000"
 
-# 3. Base de datos simulada (Luego la podemos conectar a un Excel/CSV o SQL)
+# 3. Base de datos simulada de productos
 @st.cache_data
 def cargar_catalogo():
     datos = [
@@ -87,17 +120,16 @@ def cargar_catalogo():
         {"id": 2, "nombre": "Bombillo LED Proyector Mini Lupa", "vehiculo": "Moto", "socket": "H4", "lumenes": "16,000 LM", "color": "6000K / 3000K (Dual)", "precio": 65000, "garantia": "6 meses"},
         {"id": 3, "nombre": "Exploradoras LED Doble Color Auxiliares", "vehiculo": "Ambos", "socket": "Universal", "lumenes": "10,000 LM", "color": "Blanco + Ámbar (Antiniebla)", "precio": 110000, "garantia": "1 año"},
         {"id": 4, "nombre": "Kit LED Canbus CSP Ultra Potente", "vehiculo": "Carro", "socket": "H7", "lumenes": "22,000 LM", "color": "6500K (Blanco Puro)", "precio": 160000, "garantia": "1 año"},
-        {"id": 5, "nombre": "Ojo de Ángel LED + Exploradora", "vehiculo": "Moto", "socket": "Universal", "lumenes": "8,000 LM", "color": "Blanco + Aro Azul/Rojo", "precio": 48000, "garantia": "3 meses"},
+        {"id": 5, "nombre": "Ojo de Ángel LED + Exploradora Moto", "vehiculo": "Moto", "socket": "Universal", "lumenes": "8,000 LM", "color": "Blanco + Aro Azul/Rojo", "precio": 48000, "garantia": "3 meses"},
         {"id": 6, "nombre": "Cocuyos LED T10 Canbus Siliconados (Par)", "vehiculo": "Ambos", "socket": "T10", "lumenes": "800 LM", "color": "Blanco / Azul Hielo", "precio": 15000, "garantia": "3 meses"},
     ]
     return pd.DataFrame(datos)
 
 df_productos = cargar_catalogo()
 
-# 4. Barra Lateral (Filtros rápidos)
+# 4. Barra Lateral (Filtros)
 with st.sidebar:
-    st.title("🔧 Filtros de Búsqueda")
-    st.write("Encuentra la referencia exacta para tu vehículo:")
+    st.title("🔍 Filtrar Catálogo")
     
     filtro_vehiculo = st.radio(
         "Tipo de Vehículo:",
@@ -106,10 +138,10 @@ with st.sidebar:
     )
     
     sockets_disponibles = ["Todos"] + sorted(list(df_productos["socket"].unique()))
-    filtro_socket = st.selectbox("Tipo de Conector (Socket):", sockets_disponibles)
+    filtro_socket = st.selectbox("Socket / Conector:", sockets_disponibles)
     
     rango_precio = st.slider(
-        "Presupuesto máximo ($ COP):",
+        "Precio Máximo ($ COP):",
         min_value=10000,
         max_value=250000,
         value=250000,
@@ -118,28 +150,30 @@ with st.sidebar:
     )
     
     st.divider()
-    st.caption("📍 Envíos a todo el país e instalación garantizada.")
+    st.info("🚚 Envíos seguros a todo el país y asesoría personalizada.")
 
-# 5. Cabecera Principal (Hero Banner)
+# 5. Banner Principal Estilo Wapaled (Hero Section)
 st.markdown("""
-<div class="hero-banner">
-    <h1 style="margin:0; color:#ffffff;">⚡ AUTOLUM LED</h1>
-    <p style="color:#ff9900; font-size:1.1rem; margin-top:5px; margin-bottom:0;">
-        Especialistas en Iluminación Automotriz para Carros y Motocicletas
+<div class="hero-container">
+    <div class="hero-subtitle">⚡ ACCESORIOS DE LUJO & ILUMINACIÓN LED</div>
+    <h1 class="hero-title">Todo lo que necesitas en un solo lugar</h1>
+    <p class="hero-desc">
+        Potencia la visibilidad y estética de tu vehículo o motocicleta con tecnología LED de última generación. 
+        Máxima potencia, sistemas Canbus avanzados y garantía directa.
     </p>
 </div>
 """, unsafe_allow_html=True)
 
-# 6. Navegación por Pestañas
-tab_catalogo, tab_compatibilidad, tab_contacto = st.tabs([
-    "🛒 Catálogo de Luces", 
-    "🔍 ¿Qué bombillo usa mi vehículo?", 
-    "📲 Instalación y Contacto"
+# 6. Pestañas de Navegación
+tab_catalogo, tab_guia, tab_contacto = st.tabs([
+    "🛒 Productos Destacados", 
+    "💡 ¿Qué bombillo usa mi vehículo?", 
+    "📲 Contacto y Ubicación"
 ])
 
 # --- PESTAÑA 1: CATÁLOGO ---
 with tab_catalogo:
-    # Lógica de filtrado
+    # Aplicar filtros
     df_filtrado = df_productos.copy()
     
     if filtro_vehiculo == "Carro":
@@ -152,86 +186,61 @@ with tab_catalogo:
         
     df_filtrado = df_filtrado[df_filtrado["precio"] <= rango_precio]
 
-    st.subheader(f"Productos disponibles ({len(df_filtrado)})")
+    st.subheader(f"Catálogo Actual ({len(df_filtrado)} productos)")
     
     if df_filtrado.empty:
-        st.warning("No encontramos luces con esos filtros exactos. Intenta ampliar el rango de precio o cambiar el conector.")
+        st.warning("No hay productos que coincidan con los filtros seleccionados.")
     else:
-        # Mostrar en cuadrícula de 3 columnas
         columnas = st.columns(3)
         for idx, (_, prod) in enumerate(df_filtrado.iterrows()):
             with columnas[idx % 3]:
-                # Crear enlace de WhatsApp personalizado por producto
-                mensaje_wa = f"Hola! Me interesa el *{prod['nombre']}* (Conector {prod['socket']}) de ${prod['precio']:,.0f}."
+                mensaje_wa = f"Hola! Me interesa el producto *{prod['nombre']}* (Socket {prod['socket']}) por valor de ${prod['precio']:,.0f}."
                 url_wa = f"https://wa.me/{WHATSAPP_NUM}?text={urllib.parse.quote(mensaje_wa)}"
                 
                 st.markdown(f"""
                 <div class="product-card">
-                    <span class="badge">{prod['vehiculo'].upper()} | Socket: {prod['socket']}</span>
+                    <span class="badge">{prod['vehiculo'].upper()} | {prod['socket']}</span>
                     <h4 style="margin: 5px 0 10px 0; color: #ffffff;">{prod['nombre']}</h4>
-                    <p class="spec-text">🔆 <b>Potencia:</b> {prod['lumenes']}</p>
+                    <p class="spec-text">🔆 <b>Lúmenes:</b> {prod['lumenes']}</p>
                     <p class="spec-text">🎨 <b>Tono:</b> {prod['color']}</p>
                     <p class="spec-text">🛡️ <b>Garantía:</b> {prod['garantia']}</p>
                     <div class="price-tag">${prod['precio']:,.0f} COP</div>
-                    <a href="{url_wa}" target="_blank" class="btn-wa">💬 Pedir por WhatsApp</a>
+                    <a href="{url_wa}" target="_blank" class="btn-wa">🛒 Comprar por WhatsApp</a>
                 </div>
                 """, unsafe_allow_html=True)
 
-# --- PESTAÑA 2: BUSCADOR DE COMPATIBILIDAD ---
-with tab_compatibilidad:
-    st.subheader("Guía rápida de conectores (Sockets)")
-    st.write("Si no sabes qué referencia de bombillo usa tu carro o moto, consulta esta tabla rápida o escríbenos:")
+# --- PESTAÑA 2: GUÍA DE COMPATIBILIDAD ---
+with tab_guia:
+    st.subheader("Guía de Referencias y Conectores")
+    st.write("Consulta rápida para saber qué bombillo le sirve a tu máquina:")
     
-    col_guia1, col_guia2 = st.columns(2)
-    with col_guia1:
-        st.info("""
-        **🚗 Automóviles comunes:**
-        * **Chevrolet Spark / Sail / Aveo:** H4 (Bajas y Altas en el mismo bombillo)
-        * **Renault Logan / Sandero / Duster:** H7 (Bajas) y H1 (Altas)
-        * **Mazda 2 / Mazda 3:** H11 (Bajas) y HB3/9005 (Altas)
-        * **Kia Picanto / Rio:** H4 o H7 (según modelo/año)
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("""
+        ### 🚗 Automóviles
+        * **Chevrolet (Spark / Sail / Aveo):** H4
+        * **Renault (Logan / Sandero / Duster):** H7 (Bajas) / H1 (Altas)
+        * **Mazda (2 / 3):** H11
+        * **Kia (Picanto / Rio):** H4 o H7 según versión
         """)
-    with col_guia2:
-        st.info("""
-        **🏍️ Motocicletas comunes:**
-        * **Bajaj Pulsar NS200 / Dominar:** H4
-        * **Yamaha FZ / MT-03 / R15:** H4 / H7
-        * **Honda CB 190R / XR 150:** H4
-        * **AKT NKD 125 / TTR:** H4 / BA20D
+    with col2:
+        st.markdown("""
+        ### 🏍️ Motocicletas
+        * **Bajaj (Pulsar NS200 / Dominar):** H4
+        * **Yamaha (FZ / R15 / MT-03):** H4 / H7
+        * **Honda (CB 190R / XR 150):** H4
+        * **AKT (NKD 125 / TTR):** H4 / BA20D
         """)
 
-# --- PESTAÑA 3: CONTACTO Y COTIZACIÓN ---
+# --- PESTAÑA 3: CONTACTO ---
 with tab_contacto:
-    col_form, col_info = st.columns([3, 2])
-    
-    with col_form:
-        st.subheader("Solicitar Cotización o Agendar Instalación")
-        with st.form("form_cotizacion"):
-            nombre_cliente = st.text_input("Tu Nombre:")
-            modelo_vehiculo = st.text_input("Marca, Modelo y Año de tu Carro/Moto (Ej: Mazda 3 2018 o Pulsar NS 200):")
-            tipo_servicio = st.selectbox("¿Qué estás buscando?", [
-                "Solo comprar las luces (Envío a domicilio)",
-                "Compra + Instalación en punto físico",
-                "Asesoría porque no sé cuál le sirve a mi vehículo"
-            ])
-            notas = st.text_area("Detalles adicionales (¿Buscas luz blanca, amarilla antiniebla, exploradoras?):")
-            
-            enviado = st.form_submit_button("Generar solicitud para WhatsApp")
-            
-            if enviado:
-                if nombre_cliente and modelo_vehiculo:
-                    msg_cot = f"Hola! Soy *{nombre_cliente}*. Tengo un *{modelo_vehiculo}*. Busco: {tipo_servicio}. Detalles: {notas}"
-                    link_cot = f"https://wa.me/{WHATSAPP_NUM}?text={urllib.parse.quote(msg_cot)}"
-                    st.success("¡Solicitud lista! Haz clic en el botón de abajo para enviarla a nuestro WhatsApp:")
-                    st.markdown(f'<a href="{link_cot}" target="_blank" class="btn-wa">📲 Enviar datos por WhatsApp</a>', unsafe_allow_html=True)
-                else:
-                    st.error("Por favor ingresa al menos tu nombre y el modelo de tu vehículo.")
-                    
-    with col_info:
-        st.subheader("¿Por qué elegir nuestras luces LED?")
+    st.subheader("Ponte en contacto con nosotros")
+    col_c1, col_c2 = st.columns(2)
+    with col_c1:
         st.markdown("""
-        * ✅ **No encandilan:** Corte de luz definido para no molestar a otros conductores.
-        * ✅ **Sistema Canbus:** Evita testigos de error en el tablero en carros modernos.
-        * ✅ **Disipación Térmica:** Ventiladores silenciosos de alta revolución y cuerpo en aluminio de aviación.
-        * ✅ **Resistencia al agua:** Certificación IP67 / IP68 (ideales para lluvia fuerte en moto o carro).
+        * **📲 WhatsApp Directo:** [Escríbenos aquí](https://wa.me/573000000000)
+        * **📦 Envíos:** Cobertura nacional mediante transportadora segura.
+        * **💳 Medios de pago:** Transferencias Bancor, Nequi, Daviplata o Efectivo contra entrega (según ciudad).
         """)
+    with col_c2:
+        st.info("¿Tienes dudas sobre la instalación o necesitas una cotización al por mayor para tu taller? Envíanos un mensaje directo por WhatsApp y te atenderemos al instante.")
