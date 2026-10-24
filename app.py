@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pandas as pd
 import urllib.parse
@@ -6,40 +7,59 @@ import os
 # 1. Configuración de la página
 st.set_page_config(
     page_title="JV AUTO LED | Iluminación Automotriz",
-    page_icon="💡",
+    page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# 2. Estilos CSS con Tipografía Urbana / Moderna y Azul Cielo
+# 2. Estilos CSS con Tipografía Urbana y Azul Cielo
 st.markdown("""
 <link href='https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&display=swap' rel='stylesheet'>
 <style>
-    /* Estilos generales con tipografía Plus Jakarta Sans (urbana y limpia) */
     html, body, [class*="css"] {
         font-family: 'Plus Jakarta Sans', sans-serif;
         background-color: #0b0f19;
         color: #f3f4f6;
     }
 
-    /* Títulos con estilo urbano vanguardista (Syne) */
     h1, h2, h3, h4, h5, h6, .stSubheader {
         font-family: 'Syne', sans-serif !important;
         letter-spacing: -0.5px;
     }
     
-    /* Contenedor del Banner con Imagen */
+    /* Encabezado Superior Humano y Urbano */
+    .top-header {
+        text-align: center;
+        padding: 10px 0 20px 0;
+    }
+    .top-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: #ffffff;
+        margin: 0;
+    }
+    .top-subtitle {
+        color: #00b4d8;
+        font-size: 1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-top: 5px;
+    }
+
+    /* Contenedor del Banner Carrusel */
     .banner-container {
         text-align: center;
         background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
         border: 1px solid #1e293b;
         border-radius: 16px;
-        padding: 20px;
-        margin-bottom: 30px;
+        padding: 15px;
+        margin-bottom: 25px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
 
-    /* Tarjetas de productos con estilo moderno y acento Azul Cielo */
+    /* Tarjetas de productos */
     .product-card {
         background-color: #111827;
         border: 1px solid #1f2937;
@@ -79,7 +99,7 @@ st.markdown("""
         margin: 5px 0;
     }
     
-    /* Botón de WhatsApp elegante */
+    /* Botón de WhatsApp */
     .btn-wa {
         display: block;
         width: 100%;
@@ -99,7 +119,6 @@ st.markdown("""
         transform: scale(1.01);
     }
 
-    /* Personalización de la barra lateral */
     [data-testid="stSidebar"] {
         background-color: #0f172a;
         border-right: 1px solid #1e293b;
@@ -107,7 +126,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Número de WhatsApp oficial
 WHATSAPP_NUM = "573015378987"
 
 # 3. Base de datos de productos
@@ -151,19 +169,42 @@ with st.sidebar:
     st.divider()
     st.info("📦 Envíos seguros y asesoría directa vía WhatsApp.")
 
-# 5. Banner Principal con la Imagen del Negocio
+# 5. Cabecera superior humana (Justo debajo de la barra gris de Streamlit)
+st.markdown("""
+<div class="top-header">
+    <h1 class="top-title">JV AUTO LED</h1>
+    <p class="top-subtitle">Iluminación y Tecnología de Alta Gama para Carros y Motos</p>
+</div>
+""", unsafe_allow_html=True)
+
+# 6. Banner Movible / Carrusel de Imágenes
 st.markdown('<div class="banner-container">', unsafe_allow_html=True)
-col_img1, col_img2, col_img3 = st.columns([1, 8, 1])
-with col_img2:
-    if os.path.exists("banner.jpg"):
-        st.image("banner.jpg", use_container_width=True)
-    elif os.path.exists("banner.png"):
-        st.image("banner.png", use_container_width=True)
+
+# Buscamos las imágenes disponibles en tu repositorio (puedes agregar banner1.jpg, banner2.jpg, etc.)
+imagenes_banner = []
+for img_name in ["banner.jpg", "banner.png", "banner1.jpg", "banner2.jpg"]:
+    if os.path.exists(img_name):
+        imagenes_banner.append(img_name)
+
+if imagenes_banner:
+    # Si hay varias imágenes, Streamlit permite hacer un selector o pestañas estilo carrusel interactivo
+    if len(imagenes_banner) > 1:
+        opcion_banner = st.radio(
+            "Banner interactivo", 
+            [f"Promoción {i+1}" for i in range(len(imagenes_banner))], 
+            horizontal=True, 
+            label_visibility="collapsed"
+        )
+        idx_activo = int(opcion_banner.split(" ")[1]) - 1
+        st.image(imagenes_banner[idx_activo], use_container_width=True)
     else:
-        st.warning("⚠️ Recuerda subir tu imagen renombrada como **banner.jpg** al repositorio de GitHub.")
+        st.image(imagenes_banner[0], use_container_width=True)
+else:
+    st.warning("⚠️ Sube tu imagen como **banner.jpg** a GitHub para activarla aquí.")
+
 st.markdown('</div>', unsafe_allow_html=True)
 
-# 6. Pestañas de Navegación
+# 7. Pestañas de Navegación principal
 tab_catalogo, tab_guia, tab_contacto = st.tabs([
     "🛒 Catálogo de Luces", 
     "💡 Guía de Bombillos", 
@@ -213,7 +254,7 @@ with tab_guia:
     col1, col2 = st.columns(2)
     with col1:
         st.markdown("""
-        ### 🚗 Automóviles
+        ### 🚗 Automóveis
         * **Chevrolet (Spark / Sail / Aveo):** H4
         * **Renault (Logan / Sandero / Duster):** H7 / H1
         * **Mazda (2 / 3):** H11
