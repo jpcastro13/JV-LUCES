@@ -15,7 +15,7 @@ st.set_page_config(
 WHATSAPP_NUM = "573015378987"
 
 # ---------------------------------------------------------------- estilos
-st.markdown("""
+ESTILOS = """
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -78,7 +78,9 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
 .btn-wa:hover { background: #188a46; }
 .btn-wa:focus-visible, .cabecera a:focus-visible { outline: 3px solid var(--acento); outline-offset: 2px; }
 </style>
-""", unsafe_allow_html=True)
+"""
+# Markdown corta el bloque HTML en la primera línea en blanco: se eliminan todas
+st.markdown("\n".join(l for l in ESTILOS.splitlines() if l.strip()), unsafe_allow_html=True)
 
 
 # ---------------------------------------------------- recorte de imágenes
