@@ -4,15 +4,7 @@ import pandas as pd
 import urllib.parse
 import os
 
-# --- OCULTAR LA BARRA SUPERIOR Y EL ICONO DE GITHUB ---
-hide_streamlit_style = """
-    <style>
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
-    </style>
-"""
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
 
 # 1. Configuración de la página
 st.set_page_config(
